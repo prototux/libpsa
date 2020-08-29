@@ -10,6 +10,7 @@ INCDIR = include
 SRCDIR = src
 
 SRC = $(wildcard $(SRCDIR)/*.c)
+SRC += $(wildcard $(SRCDIR)/*/*.c)
 OBJ = $(SRC:.c=.o)
 
 all:		$(NAME)
@@ -18,8 +19,7 @@ $(NAME):	$(OBJ)
 			$(AR) $(NAME) $(OBJ)
 			$(RANLIB) $(NAME)
 
-re:			fclean
-			all
+re:			fclean all
 
 clean:
 			$(RM) $(OBJ)
