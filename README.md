@@ -1,3 +1,3 @@
 # libpsa
 
-C library for interacting with PSA's CAN car buses
+Static C library for interacting with PSA's CAN car buses
