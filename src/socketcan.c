@@ -18,9 +18,10 @@
 // Global sockets list
 struct psa_socketcan_socket *sockets = NULL;
 
-uint8_t psa_socketcan_read_handler(uint8_t bus, struct psa_can_frame *psa_frame)
+uint8_t psa_socketcan_read(uint8_t bus)
 {
 	struct can_frame can_frame;
+	struct psa_can_frame psa_frame;
 	int sock = NULL;
 	psa_socketcan_getsock(bus, &sock);
 
@@ -29,14 +30,14 @@ uint8_t psa_socketcan_read_handler(uint8_t bus, struct psa_can_frame *psa_frame)
 		return ESOCKREAD;
 
 	// Copy data to a psa_can_frame
-	psa_frame->bus = bus;
-	psa_frame->id = can_frame.can_id;
-	psa_frame->len = can_frame.can_dlc;
-	memcpy(&(psa_frame->data), &(can_frame.data), 8);
-	return NULL;
+	psa_frame.bus = bus;
+	psa_frame.id = can_frame.can_id;
+	psa_frame.len = can_frame.can_dlc;
+	memcpy(&(psa_frame.data), &(can_frame.data), 8);
+	return SUCCESS;
 }
 
-void psa_socketcan_write_handler(struct psa_can_frame *frame)
+void psa_socketcan_write_frame(struct psa_can_frame *frame)
 {
 	int sock = NULL;
 	psa_socketcan_getsock(frame->bus, &sock);
@@ -58,7 +59,7 @@ uint8_t psa_socketcan_getsock(uint8_t bus, int *sock)
 		if (tmp_sockets->bus == bus)
 		{
 			*sock = *(tmp_sockets->sock);
-			return NULL;
+			return SUCCESS;
 		}
 		tmp_sockets = tmp_sockets->next;
 	}
@@ -80,7 +81,7 @@ uint8_t psa_socketcan_addsock(uint8_t bus, int *sock)
 			tmp_sockets = tmp_sockets->next;
 		tmp_sockets->next = &new_socket;
 	}
-	return NULL;
+	return SUCCESS;
 }
 
 uint8_t psa_socketcan_open(uint8_t bus, const char *network_name)
@@ -108,10 +109,7 @@ uint8_t psa_socketcan_open(uint8_t bus, const char *network_name)
 	if(!bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0)
 		return ESOCKBIND;
 
-	psa_set_write_handler(&psa_socketcan_write_handler);
-	psa_set_read_handler(&psa_socketcan_read_handler);
-
 	// Add the socket to the list of opened sockets
 	psa_socketcan_addsock(bus, &sock);
-	return NULL;
+	return SUCCESS;
 }

@@ -1,6 +1,9 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
+// Basics
+#define SUCCESS 1
+
 // PSA Architectures (eg. generations)
 #define ARCH_VAN        0x01
 #define ARCH_AEE2004    0x02

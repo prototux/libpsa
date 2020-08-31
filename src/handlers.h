@@ -2,9 +2,13 @@
 #define __HANDLERS_H__
 
 #include "AEE2004/handlers.h"
+#include "ids_common.h"
 
 // Handlers
-void (*write_handler)(struct psa_can_frame *frame);
-uint8_t (*read_handler)(uint8_t bus, struct psa_can_frame *frame);
+struct id_handler ***handlers = {
+	NULL, // VAN_handlers
+	AEE2004_handlers,
+	//AEE2010_handlers,
+};
 
 #endif /* __HANDLERS_H__ */
