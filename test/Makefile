@@ -2,7 +2,7 @@ NAME = test
 
 CC = cc
 RM = rm -f
-CFLAGS = -L$(LIBDIR) -I$(INCDIR) -l psa -o0 -std=gnu99 -W -Wall -pedantic
+CFLAGS = -g3 -L$(LIBDIR) -I$(INCDIR) -l psa -std=gnu11 -W -Wall -pedantic
 
 LIBDIR = ../
 INCDIR = ../include

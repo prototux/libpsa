@@ -39,6 +39,9 @@ struct id_handler {
 // Raw data struct definition
 #define STRUCT_DATA_RAW(A, B, C) struct A##_##B##_##C##_data A##_##B##_##C##_data_raw
 
+// Raw data name
+#define RAW_NAME(A, B, C) A##_##B##_##C##_data_raw
+
 // Raw data struct
 #define STRUCT_DATA(A, B, C) struct A##_##B##_##C##_data
 

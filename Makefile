@@ -4,7 +4,7 @@ CC = cc
 AR = ar -rc
 RM = rm -f
 RANLIB = ranlib
-CFLAGS = -std=gnu11 -W -Wall -pedantic
+CFLAGS = -std=gnu11 -W -Wall -pedantic -g3
 
 INCDIR = include
 SRCDIR = src

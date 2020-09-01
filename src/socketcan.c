@@ -18,14 +18,18 @@
 //#include "handlers.h"
 
 // Global sockets list
-struct psa_socketcan_socket *sockets = NULL;
+int sockets[5] = {0};
 
 uint8_t psa_socketcan_read(uint8_t bus)
 {
 	struct can_frame can_frame;
 	struct psa_can_frame psa_frame;
 	int sock = 0;
-	psa_socketcan_getsock(bus, &sock);
+
+	// Get the socket
+	if (!sockets[bus])
+		return 1;
+	sock = sockets[bus];
 
 	// Read from socket
 	if (read(sock, &can_frame, sizeof(struct can_frame)) < 0)
@@ -36,13 +40,16 @@ uint8_t psa_socketcan_read(uint8_t bus)
 	psa_frame.id = can_frame.can_id;
 	psa_frame.len = can_frame.can_dlc;
 	memcpy(&(psa_frame.data), &(can_frame.data), 8);
+
+	// Parse it
+	psa_parse(&psa_frame);
 	return SUCCESS;
 }
 
 void psa_socketcan_write_frame(struct psa_can_frame *frame)
 {
 	int sock = 0;
-	psa_socketcan_getsock(frame->bus, &sock);
+	sock = sockets[frame->bus];
 	struct can_frame can_frame;
 	can_frame.can_id = frame->id;
 	can_frame.can_dlc = frame->len;
@@ -50,47 +57,14 @@ void psa_socketcan_write_frame(struct psa_can_frame *frame)
 	write(sock, &can_frame, sizeof(struct can_frame));
 }
 
-uint8_t psa_socketcan_getsock(uint8_t bus, int *sock)
-{
-	struct psa_socketcan_socket *tmp_sockets = sockets;
-	if (!sockets)
-		return ESOCKEMPTY;
-
-	while (tmp_sockets->next)
-	{
-		if (tmp_sockets->bus == bus)
-		{
-			*sock = *(tmp_sockets->sock);
-			return SUCCESS;
-		}
-		tmp_sockets = tmp_sockets->next;
-	}
-	return ESOCKNOTFOUND;
-}
-
-uint8_t psa_socketcan_addsock(uint8_t bus, int *sock)
-{
-	struct psa_socketcan_socket *tmp_sockets = sockets;
-	struct psa_socketcan_socket new_socket;
-	new_socket.bus = bus;
-	new_socket.sock = sock;
-	new_socket.next = NULL;
-	if (!sockets)
-		sockets = &new_socket;
-	else
-	{
-		while(tmp_sockets->next)
-			tmp_sockets = tmp_sockets->next;
-		tmp_sockets->next = &new_socket;
-	}
-	return SUCCESS;
-}
-
 uint8_t psa_socketcan_open(uint8_t bus, const char *network_name)
 {
 	int sock = 0;
+	if (bus >=5)
+		return 1;
+
 	// Check if the bus isn't already opened
-	if (psa_socketcan_getsock(bus, &sock) != ESOCKNOTFOUND)
+	if (sockets[bus])
 		return ESOCKALREADYDEFINED;
 
 	// sock is a global var
@@ -108,10 +82,10 @@ uint8_t psa_socketcan_open(uint8_t bus, const char *network_name)
 	addr.can_family = AF_CAN;
 	addr.can_ifindex = ifr.ifr_ifindex;
 
-	if(!(bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0))
+	if(bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0)
 		return ESOCKBIND;
 
 	// Add the socket to the list of opened sockets
-	psa_socketcan_addsock(bus, &sock);
+	sockets[bus] = sock;
 	return SUCCESS;
 }

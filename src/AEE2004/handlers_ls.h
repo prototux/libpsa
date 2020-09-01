@@ -2,10 +2,9 @@
 #define __AEE2004_HANDLERS_LS_H__
 
 #include "../ids_common.h"
+#include "../handlers.h"
 #include "ls-ids/all.h"
 
-struct id_handler ls_handlers[] = {
-	[0x21F] = ID_HANDLER(AEE2004, LS, 21F), // CDE_RADIO
-};
+extern struct id_handler ls_handlers[];
 
 #endif /* __AEE2004_HANDLERS_LS_H__ */

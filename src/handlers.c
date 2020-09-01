@@ -1,0 +1,25 @@
+#include <stddef.h>
+#include <inttypes.h>
+#include <stdio.h>
+#include "ids_common.h"
+#include "handlers.h"
+#include "../include/psa.h"
+
+// Handlers
+struct id_handler **handlers[] = {
+    NULL, // VAN_handlers
+    AEE2004_handlers,
+    NULL // AEE2010_handlers
+};
+
+// Just a useless frame handler as a generic "ignore the frame" handler
+struct named_data *ignore_frame_parse(__attribute__((unused))struct psa_can_frame *frame)
+{
+	printf("IGNORED: bus=%x id=%x len=%d\n", frame->bus, frame->id, frame->len);
+	return NULL;
+}
+
+uint8_t *ignore_frame_pack(__attribute__((unused))void *data)
+{
+	return NULL;
+}

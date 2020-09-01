@@ -2,7 +2,7 @@
 #define __COMMON_H__
 
 // Basics
-#define SUCCESS 1
+#define SUCCESS 0
 
 // PSA Architectures (eg. generations)
 enum arch {

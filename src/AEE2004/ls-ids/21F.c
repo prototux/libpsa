@@ -22,14 +22,25 @@ LIST_NAMED_DATA(AEE2004, LS, 21F) = {
 	NAMED_DATA(AEE2004, LS, 21F, U8, HDC_MOLETTE),
 	NAMED_DATA(AEE2004, LS, 21F, BOOL, HDC_MOLETTE_SUP),
 	NAMED_DATA(AEE2004, LS, 21F, BOOL, HDC_MOLETTE_INF)
-};__attribute__ ((visibility ("default")))
+};
 
 ID_PARSE(AEE2004, LS, 21F)
 {
-	frame = frame;
-	AEE2004_LS_21F_data_raw.HDC_SOURCE = true;
-	AEE2004_LS_21F_data_raw.HDC_VOLUME_DOWN = true;
-	AEE2004_LS_21F_data_raw.HDC_VOLUME_UP = true;
+	RAW_NAME(AEE2004, LS, 21F).HDC_SOURCE = frame->data[0]&0x02;
+	RAW_NAME(AEE2004, LS, 21F).HDC_VOLUME_DOWN = frame->data[0]&0x04;
+	RAW_NAME(AEE2004, LS, 21F).HDC_VOLUME_UP = frame->data[0]&0x08;
+	RAW_NAME(AEE2004, LS, 21F).HDC_PRECEDENT = frame->data[0]&0x20;
+	RAW_NAME(AEE2004, LS, 21F).HDC_SUIVANT = frame->data[0]&0x40;
+	if (frame->data[2] < RAW_NAME(AEE2004, LS, 21F).HDC_MOLETTE)
+	{
+		RAW_NAME(AEE2004, LS, 21F).HDC_MOLETTE_SUP = false;
+		RAW_NAME(AEE2004, LS, 21F).HDC_MOLETTE_INF = true;
+	}
+	else if (frame->data[2] > RAW_NAME(AEE2004, LS, 21F).HDC_MOLETTE)
+	{
+		RAW_NAME(AEE2004, LS, 21F).HDC_MOLETTE_SUP = true;
+		RAW_NAME(AEE2004, LS, 21F).HDC_MOLETTE_INF = false;
+	}
 	return (struct named_data*)&AEE2004_LS_21F_named_data;
 }
 

@@ -4,6 +4,8 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
+#include "common.h"
+
 // Generic CAN frame struct (without support for extended IDs)
 struct psa_can_frame {
 	uint8_t bus;
@@ -45,9 +47,8 @@ struct named_data {
 };
 
 // API definition
-void psa_set_write_handler(void (*handler)(struct psa_can_frame *frame));
-void psa_set_read_handler(struct psa_can_frame* (*handler)(void));
-void psa_open_socketcan(uint8_t bus_id, char *network_name);
+void psa_init(enum arch arch);
+void *psa_get_raw(uint8_t bus, uint8_t id);
 struct named_data *psa_get_named(uint8_t can_bus, uint16_t id);
 struct named_data *psa_parse(struct psa_can_frame *frame);
 
