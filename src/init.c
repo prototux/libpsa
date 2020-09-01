@@ -14,9 +14,9 @@
 #include "handlers.h"
 
 // Current architecture (global)
-uint8_t current_arch = ARCH_UNDEFINED;
+enum arch current_arch = UNDEFINED;
 
-void psa_init(uint8_t arch)
+void psa_init(enum arch arch)
 {
 	current_arch = arch;
 }
@@ -24,7 +24,7 @@ void psa_init(uint8_t arch)
 struct named_data *psa_parse(struct psa_can_frame *frame)
 {
 	uint8_t bus;
-	if (current_arch == ARCH_AEE2004)
+	if (current_arch == AEE2004)
 		bus = (frame->bus == AEE2004_BUS_IS)? 0:1;
 	struct named_data* (*parser)(struct psa_can_frame *frame) = handlers[current_arch][bus][frame->id].parse;
 	return (*parser)(frame);
@@ -38,7 +38,7 @@ void *psa_get_raw(uint8_t bus, uint8_t id)
 struct named_data *psa_get_named(uint8_t can_bus, uint16_t id)
 {
 	uint8_t bus;
-    if (current_arch == ARCH_AEE2004)
+    if (current_arch == AEE2004)
 	{
 		bus = (can_bus == AEE2004_BUS_IS)? 0:1;
 	}
