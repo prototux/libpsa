@@ -8,10 +8,10 @@
 // General informations about the frame
 ID_INFOS_DEF(AEE2004, LS, 21F) = {
 	.name = "CDE_RADIO",
-	.source_ecus = {AEE2004_ECU_LS_HDC},
+	.source_ecu = AEE2004_ECU_LS_HDC,
 };
 
-STRUCT_DATA_RAW(AEE2004, LS, 21F)
+STRUCT_DATA_RAW(AEE2004, LS, 21F);
 
 LIST_NAMED_DATA(AEE2004, LS, 21F) = {
 	NAMED_DATA(AEE2004, LS, 21F, BOOL, HDC_SOURCE),
@@ -26,15 +26,15 @@ LIST_NAMED_DATA(AEE2004, LS, 21F) = {
 
 ID_PARSE(AEE2004, LS, 21F)
 {
-	printf("Parsing!\n");
+	frame = frame;
 	AEE2004_LS_21F_data_raw.HDC_SOURCE = true;
 	AEE2004_LS_21F_data_raw.HDC_VOLUME_DOWN = true;
 	AEE2004_LS_21F_data_raw.HDC_VOLUME_UP = true;
-	printf("Parsed!\n");
-	return &AEE2004_LS_21F_named_data;
+	return (struct named_data*)&AEE2004_LS_21F_named_data;
 }
 
 ID_PACK(AEE2004, LS, 21F)
 {
+	data = data;
 	return 0;
 }

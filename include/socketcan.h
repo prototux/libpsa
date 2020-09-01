@@ -16,6 +16,7 @@ struct psa_socketcan_socket {
 	struct psa_socketcan_socket *next;
 };
 uint8_t psa_socketcan_getsock(uint8_t bus, int *sock);
-//void psa_socketcan_open(uint8_t bus_id, char *network_name);
+uint8_t psa_socketcan_addsock(uint8_t bus, int *sock);
+uint8_t psa_socketcan_open(uint8_t bus, const char *network_name);
 
 #endif /* __SOCKETCAN_H__ */

@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <inttypes.h>
@@ -6,6 +7,7 @@
 #include <net/if.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
+#include <string.h>
 
 // libpsa public includes
 #include "../include/common.h"
@@ -22,7 +24,7 @@ uint8_t psa_socketcan_read(uint8_t bus)
 {
 	struct can_frame can_frame;
 	struct psa_can_frame psa_frame;
-	int sock = NULL;
+	int sock = 0;
 	psa_socketcan_getsock(bus, &sock);
 
 	// Read from socket
@@ -39,7 +41,7 @@ uint8_t psa_socketcan_read(uint8_t bus)
 
 void psa_socketcan_write_frame(struct psa_can_frame *frame)
 {
-	int sock = NULL;
+	int sock = 0;
 	psa_socketcan_getsock(frame->bus, &sock);
 	struct can_frame can_frame;
 	can_frame.can_id = frame->id;
@@ -71,7 +73,7 @@ uint8_t psa_socketcan_addsock(uint8_t bus, int *sock)
 	struct psa_socketcan_socket *tmp_sockets = sockets;
 	struct psa_socketcan_socket new_socket;
 	new_socket.bus = bus;
-	new_socket.sock = *sock;
+	new_socket.sock = sock;
 	new_socket.next = NULL;
 	if (!sockets)
 		sockets = &new_socket;
@@ -86,7 +88,7 @@ uint8_t psa_socketcan_addsock(uint8_t bus, int *sock)
 
 uint8_t psa_socketcan_open(uint8_t bus, const char *network_name)
 {
-	int sock = NULL;
+	int sock = 0;
 	// Check if the bus isn't already opened
 	if (psa_socketcan_getsock(bus, &sock) != ESOCKNOTFOUND)
 		return ESOCKALREADYDEFINED;
@@ -106,7 +108,7 @@ uint8_t psa_socketcan_open(uint8_t bus, const char *network_name)
 	addr.can_family = AF_CAN;
 	addr.can_ifindex = ifr.ifr_ifindex;
 
-	if(!bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0)
+	if(!(bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0))
 		return ESOCKBIND;
 
 	// Add the socket to the list of opened sockets

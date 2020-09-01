@@ -2,13 +2,13 @@
 #define __IDS_COMMON_H__
 
 #include <inttypes.h>
-
+#include "../include/common.h"
 #include "../include/psa.h"
 
 // ID metadata
 struct id_infos {
 	char *name;
-	uint8_t *source_ecus;
+	uint8_t source_ecu;
 };
 
 // Common macro for IDs handlers
@@ -16,12 +16,12 @@ struct id_handler {
 	struct id_infos *infos;
 	void *raw;
 	struct named_data *named;
-	void* (*parse)(struct psa_can_struct psa_frame);
-	uint8_t* (*pack)(struct psa_can_struct psa_frame);
+	struct named_data* (*parse)(struct psa_can_frame *psa_frame);
+	uint8_t* (*pack)(void *data);
 };
 
 
-#define ID_HANDLER(A, B, C) { .infos = &A##_##B##_##C##_infos, .raw = (void*)&A##_##B##_##C##_data_raw, .named = &A##_##B##_##C##_named_data, .parse = &A##_##B##_##C##_parse, .pack = &A##_##B##_##C## _pack }
+#define ID_HANDLER(A, B, C) { .infos = &A##_##B##_##C##_infos, .raw = (void*)&A##_##B##_##C##_data_raw, .named = (struct named_data*)&A##_##B##_##C##_named_data, .parse = &A##_##B##_##C##_parse, .pack = &A##_##B##_##C## _pack }
 
 /* For the following Macros
    * A == can_arch
@@ -37,7 +37,7 @@ struct id_handler {
 #define NAMED_DATA(A, B, C, D, E) { .name = #E, .type = D, .data = &A##_##B##_##C##_data_raw.E }
 
 // Raw data struct definition
-#define STRUCT_DATA_RAW(A, B, C) struct A##_##B##_##C##_data A##_##B##_##C##_data_raw;
+#define STRUCT_DATA_RAW(A, B, C) struct A##_##B##_##C##_data A##_##B##_##C##_data_raw
 
 // Raw data struct
 #define STRUCT_DATA(A, B, C) struct A##_##B##_##C##_data
