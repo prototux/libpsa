@@ -11,6 +11,7 @@ SRCDIR = src
 
 SRC = $(wildcard $(SRCDIR)/*.c)
 SRC += $(wildcard $(SRCDIR)/*/*.c)
+SRC += $(wildcard $(SRCDIR)/*/*/*.c)
 OBJ = $(SRC:.c=.o)
 
 all:		$(NAME)

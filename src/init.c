@@ -19,10 +19,9 @@ uint8_t current_arch = NULL;
 void psa_init(uint8_t arch)
 {
 	current_arch = arch;
-	return;
 }
 
-void *psa_parse(struct psa_can_frame *frame)
+struct named_data *psa_parse(struct psa_can_frame *frame)
 {
 	uint8_t bus;
 	if (current_arch == ARCH_AEE2004)
@@ -36,7 +35,10 @@ void *psa_get_raw(uint8_t bus, uint8_t id)
 	return handlers[current_arch][bus][id].raw;
 }
 
-void *psa_get_named(uint8_t bus, uint8_t id)
+struct named_data *psa_get_named(uint8_t can_bus, uint16_t id)
 {
+	uint8_t bus;
+    if (current_arch == ARCH_AEE2004)
+        bus = (can_bus == AEE2004_BUS_IS)? 0:1;
 	return handlers[current_arch][bus][id].named;
 }

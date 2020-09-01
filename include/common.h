@@ -5,9 +5,9 @@
 #define SUCCESS 1
 
 // PSA Architectures (eg. generations)
-#define ARCH_VAN        0x01
-#define ARCH_AEE2004    0x02
-#define ARCH_AEE2010    0x04
+#define ARCH_VAN        0x00
+#define ARCH_AEE2004    0x01
+#define ARCH_AEE2010    0x02
 
 #include "VAN.h" // VAN+CAN bus defines
 #include "AEE2004.h" // AEE2004 defines

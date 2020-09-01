@@ -5,7 +5,7 @@
 #include "../ids_common.h"
 
 struct id_handler hs_handlers[] = {
-	ID_HANDLER(AEE2004, LS, 21F)
+	NULL,
 };
 
 #endif /* __AEE2004_HANDLERS_HS_H__ */
