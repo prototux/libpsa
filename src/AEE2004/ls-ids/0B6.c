@@ -14,14 +14,16 @@ ID_INFOS_DEF(AEE2004, LS, 0B6) = {
 STRUCT_DATA_RAW(AEE2004, LS, 0B6);
 
 LIST_NAMED_DATA(AEE2004, LS, 0B6) = {
-	NAMED_DATA(AEE2004, LS, 0B6, S16, x_regime_moteur),
-	NAMED_DATA(AEE2004, LS, 0B6, S16, x_vitesse),
+	NAMED_DATA(AEE2004, LS, 0B6, U16, x_regime_moteur),
+	NAMED_DATA(AEE2004, LS, 0B6, U16, x_vitesse),
 };
 
 ID_PARSE(AEE2004, LS, 0B6)
 {
-	RAW_NAME(AEE2004, LS, 0B6).x_regime_moteur = (frame->data[0]<<16|frame->data[1])/10;
-	RAW_NAME(AEE2004, LS, 0B6).x_vitesse = (frame->data[2]<<16|frame->data[3])/100;
+	uint16_t rpm_raw = (frame->data[0]<<8) | frame->data[1];
+	uint16_t tacho_raw = (frame->data[2]<<8) | frame->data[3];
+	RAW_NAME(AEE2004, LS, 0B6).x_regime_moteur = rpm_raw/10;
+	RAW_NAME(AEE2004, LS, 0B6).x_vitesse = tacho_raw/100;
 	return (struct named_data*)&AEE2004_LS_0B6_named_data;
 }
 

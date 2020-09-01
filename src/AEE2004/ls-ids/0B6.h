@@ -5,8 +5,8 @@
 #include "../../ids_common.h"
 
 STRUCT_DATA(AEE2004, LS, 0B6) {
-	int16_t x_regime_moteur;
-	int16_t x_vitesse;
+	uint16_t x_regime_moteur;
+	uint16_t x_vitesse;
 };
 
 extern ID_INFOS_DEF(AEE2004, LS, 0B6);

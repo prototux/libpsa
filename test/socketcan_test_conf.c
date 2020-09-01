@@ -16,9 +16,15 @@ void print_id(uint16_t id)
         if (data[i].type == BOOL)
             printf("%s: %x\n", data[i].name, *data[i].data_bool);
         else if (data[i].type == U8)
-            printf("%s: %x\n", data[i].name, *data[i].data_u8);
+            printf("%s: %d\n", data[i].name, *data[i].data_u8);
+        else if (data[i].type == U16)
+            printf("%s: %d\n", data[i].name, *data[i].data_u16);
+        else if (data[i].type == U32)
+            printf("%s: %x\n", data[i].name, *data[i].data_u32);
 		else if (data[i].type == S16)
 			printf("%s: %d\n", data[i].name, *data[i].data_s16);
+		else if (data[i].type == FLOAT)
+			printf("%s: %f\n", data[i].name, *data[i].data_float);
         i++;
     }
 }

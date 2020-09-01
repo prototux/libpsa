@@ -17,6 +17,7 @@ struct psa_can_frame {
 enum named_data_type {
 	BOOL,
 	STRING,
+	FLOAT,
 	U8,
 	U16,
 	U32,
@@ -43,6 +44,7 @@ struct named_data {
 		int32_t *data_s32;
 		int64_t *data_s64;
 		char *data_str;
+		float *data_float;
 	};
 };
 
