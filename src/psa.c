@@ -6,9 +6,7 @@
 #include <sys/ioctl.h>
 
 // libpsa public includes
-#include "../include/common.h"
-#include "../include/socketcan.h"
-#include "../include/psa.h"
+#include <psa.h>
 
 // libpsa private includes
 #include "handlers.h"

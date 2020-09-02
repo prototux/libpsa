@@ -2,7 +2,7 @@
 #define __AEE2004_LS_IDS_21F_H__
 
 #include <stdbool.h>
-#include "../../ids_common.h"
+#include "../../handlers.h"
 
 STRUCT_DATA(AEE2004, LS, 21F) {
 	bool HDC_SOURCE;

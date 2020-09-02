@@ -10,9 +10,8 @@
 #include <string.h>
 
 // libpsa public includes
-#include "../include/common.h"
-#include "../include/socketcan.h"
-#include "../include/psa.h"
+#include <psa.h>
+#include <psa-socketcan.h>
 
 // libpsa private includes
 //#include "handlers.h"

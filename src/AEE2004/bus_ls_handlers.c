@@ -1,6 +1,4 @@
-#include "../ids_common.h"
-#include "../handlers.h"
-#include "handlers_ls.h"
+#include "bus_ls_handlers.h"
 
 struct id_handler ls_handlers[] = {
     [0x000] = IGNORE_FRAME,

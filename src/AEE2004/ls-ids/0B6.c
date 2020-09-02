@@ -1,8 +1,7 @@
 #include <inttypes.h>
 
-#include "../../../include/psa.h"
-#include "../../../include/common.h"
-#include "../../ids_common.h"
+#include <psa.h>
+#include "../../handlers.h"
 #include "0B6.h"
 
 // General informations about the frame

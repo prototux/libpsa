@@ -2,7 +2,7 @@
 #define __AEE2004_LS_IDS_0B6_H__
 
 #include <stdbool.h>
-#include "../../ids_common.h"
+#include "../../handlers.h"
 
 STRUCT_DATA(AEE2004, LS, 0B6) {
 	uint16_t x_regime_moteur;

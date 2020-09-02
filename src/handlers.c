@@ -1,15 +1,16 @@
 #include <stddef.h>
 #include <inttypes.h>
 #include <stdio.h>
-#include "ids_common.h"
+
+#include <psa.h>
+
 #include "handlers.h"
-#include "../include/psa.h"
 
 // Handlers
 struct id_handler **handlers[] = {
-    NULL, // VAN_handlers
+    VAN_handlers,
     AEE2004_handlers,
-    NULL // AEE2010_handlers
+    AEE2010_handlers
 };
 
 // Just a useless frame handler as a generic "ignore the frame" handler
