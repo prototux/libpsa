@@ -4,6 +4,7 @@
 #include <net/if.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
+#include <string.h>
 
 // libpsa public includes
 #include <psa.h>
@@ -41,4 +42,19 @@ struct named_data *psa_get_named(uint8_t can_bus, uint16_t id)
 		bus = (can_bus == AEE2004_BUS_IS)? 0:1;
 	}
 	return handlers[current_arch][bus][id].named;
+}
+
+struct named_data *psa_get_named_element(uint8_t can_bus, uint16_t id, char *element)
+{
+	struct named_data *data = psa_get_named(can_bus, id);
+	if (!data)
+		return NULL;
+
+	while (data != NULL)
+	{
+		if (!strcmp(data->name, element))
+			return data;
+		data++;
+	}
+	return NULL;
 }

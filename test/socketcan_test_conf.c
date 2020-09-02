@@ -3,9 +3,8 @@
 #include <stdio.h>
 #include <inttypes.h>
 
-#include "../include/common.h"
-#include "../include/socketcan.h"
-#include "../include/psa.h"
+#include <psa.h>
+#include <psa-socketcan.h>
 
 void print_id(uint16_t id)
 {
@@ -21,8 +20,14 @@ void print_id(uint16_t id)
             printf("%s: %d\n", data[i].name, *data[i].data_u16);
         else if (data[i].type == U32)
             printf("%s: %x\n", data[i].name, *data[i].data_u32);
+		else if (data[i].type == S8)
+			printf("%s: %d\n", data[i].name, *data[i].data_s8);
 		else if (data[i].type == S16)
 			printf("%s: %d\n", data[i].name, *data[i].data_s16);
+		else if (data[i].type == S32)
+			printf("%s: %d\n", data[i].name, *data[i].data_s32);
+		else if (data[i].type == STRING)
+			printf("%s: %s\n", data[i].name, data[i].data_str);
 		else if (data[i].type == FLOAT)
 			printf("%s: %f\n", data[i].name, *data[i].data_float);
         i++;
@@ -31,7 +36,7 @@ void print_id(uint16_t id)
 
 void clear_screen()
 {
-  write(STDOUT_FILENO, (const char*)"\x1B[1;1H\x1B[2J", 12);
+	write(STDOUT_FILENO, (const char*)"\x1B[1;1H\x1B[2J", 12);
 }
 
 int main(void)

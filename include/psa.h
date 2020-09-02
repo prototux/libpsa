@@ -53,5 +53,6 @@ void psa_init(enum arch arch);
 void *psa_get_raw(uint8_t bus, uint8_t id);
 struct named_data *psa_get_named(uint8_t can_bus, uint16_t id);
 struct named_data *psa_parse(struct psa_can_frame *frame);
+struct named_data *psa_get_named_element(uint8_t can_bus, uint16_t id, char *element);
 
 #endif /* __PSA_H__ */
